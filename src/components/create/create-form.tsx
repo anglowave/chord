@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
+import { ChevronDown, ChevronUp } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -73,6 +74,16 @@ export function CreateForm() {
 	})
 
 	const selectedStocks = watch('stocks')
+	const devBuySol = watch('devBuySol')
+
+	function handleDevBuyStep(direction: 1 | -1) {
+		const current = Number(devBuySol) || 0
+		const next = Math.min(
+			10,
+			Math.max(0, Math.round((current + direction * 0.01) * 100) / 100),
+		)
+		setValue('devBuySol', next, { shouldValidate: true, shouldDirty: true })
+	}
 
 	function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {
 		const file = event.target.files?.[0]
@@ -183,17 +194,17 @@ export function CreateForm() {
 				onSubmit={handleSubmit(onSubmit)}
 				className="space-y-8"
 			>
-				<div className="grid gap-8 lg:grid-cols-[240px_1fr]">
-					<div>
+				<div className="grid items-stretch gap-6 sm:grid-cols-[180px_1fr]">
+					<div className="flex flex-col">
 						<label className="text-sm font-medium text-foreground">
 							Token image
 						</label>
 						<label
 							className={cn(
-								'mt-2 flex aspect-square cursor-pointer flex-col',
+								'mt-2 flex min-h-44 flex-1 cursor-pointer flex-col',
 								'items-center justify-center rounded-2xl border',
-								'border-dashed border-border bg-card/30 transition-colors',
-								'hover:border-accent/20 hover:bg-card/50',
+								'border-dashed border-border bg-card/30 px-3 text-center',
+								'transition-colors hover:border-accent/20 hover:bg-card/50',
 							)}
 						>
 							{imagePreview ? (
@@ -205,7 +216,8 @@ export function CreateForm() {
 								/>
 							) : (
 								<span className="text-sm text-muted-foreground">
-									Upload image (max 4MB)
+									Upload image
+									<span className="mt-1 block text-xs">Max 4MB</span>
 								</span>
 							)}
 							<input
@@ -218,69 +230,109 @@ export function CreateForm() {
 					</div>
 
 					<div className="space-y-5">
-						<Field label="Name" error={errors.name?.message}>
-							<input
-								{...register('name')}
-								className={inputClassName}
-								placeholder="My Token"
-							/>
-						</Field>
+						<div className="grid gap-5 sm:grid-cols-2">
+							<Field label="Name" error={errors.name?.message}>
+								<input
+									{...register('name')}
+									className={inputClassName}
+									placeholder="My Token"
+								/>
+							</Field>
 
-						<Field label="Ticker" error={errors.symbol?.message}>
-							<input
-								{...register('symbol')}
-								className={cn(inputClassName, 'font-mono uppercase')}
-								placeholder="TICKER"
-							/>
-						</Field>
+							<Field label="Ticker" error={errors.symbol?.message}>
+								<input
+									{...register('symbol')}
+									className={cn(inputClassName, 'font-mono uppercase')}
+									placeholder="TICKER"
+								/>
+							</Field>
+						</div>
 
 						<Field label="Description" error={errors.description?.message}>
 							<textarea
 								{...register('description')}
 								rows={3}
-								className={cn(inputClassName, 'resize-none')}
+								className={cn(inputClassName, 'h-auto resize-none py-3')}
 								placeholder="What is this token about?"
 							/>
 						</Field>
+					</div>
+				</div>
 
-						<div className="grid gap-5 sm:grid-cols-3">
-							<Field label="X (optional)" error={errors.twitter?.message}>
-								<input
-									{...register('twitter')}
-									className={inputClassName}
-									placeholder="https://x.com/..."
-								/>
-							</Field>
-							<Field label="Telegram (optional)" error={errors.telegram?.message}>
-								<input
-									{...register('telegram')}
-									className={inputClassName}
-									placeholder="https://t.me/..."
-								/>
-							</Field>
-							<Field label="Website (optional)" error={errors.website?.message}>
-								<input
-									{...register('website')}
-									className={inputClassName}
-									placeholder="https://..."
-								/>
-							</Field>
-						</div>
-
-						<Field
-							label="Dev buy (optional, SOL)"
-							error={errors.devBuySol?.message}
+				<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+					<Field label="X" error={errors.twitter?.message}>
+						<input
+							{...register('twitter')}
+							className={inputClassName}
+							placeholder="https://x.com/..."
+						/>
+					</Field>
+					<Field label="Telegram" error={errors.telegram?.message}>
+						<input
+							{...register('telegram')}
+							className={inputClassName}
+							placeholder="https://t.me/..."
+						/>
+					</Field>
+					<Field label="Website" error={errors.website?.message}>
+						<input
+							{...register('website')}
+							className={inputClassName}
+							placeholder="https://..."
+						/>
+					</Field>
+					<Field
+						label="Dev buy (SOL)"
+						error={errors.devBuySol?.message}
+					>
+						<div
+							className={cn(
+								'flex h-11 overflow-hidden rounded-lg border border-input',
+								'bg-card/50 transition-colors focus-within:border-ring',
+							)}
 						>
 							<input
 								{...register('devBuySol')}
 								type="number"
 								min={0}
+								max={10}
 								step={0.01}
-								className={cn(inputClassName, 'font-mono')}
 								placeholder="0"
+								className={cn(
+									'w-full bg-transparent px-3 font-mono text-sm text-foreground',
+									'outline-none placeholder:text-muted-foreground',
+									'[appearance:textfield]',
+									'[&::-webkit-inner-spin-button]:appearance-none',
+									'[&::-webkit-outer-spin-button]:appearance-none',
+								)}
 							/>
-						</Field>
-					</div>
+							<div className="flex w-8 shrink-0 flex-col border-l border-input">
+								<button
+									type="button"
+									aria-label="Increase dev buy"
+									onClick={() => handleDevBuyStep(1)}
+									className={cn(
+										'flex flex-1 items-center justify-center text-muted-foreground',
+										'transition-colors hover:bg-accent/10 hover:text-accent',
+									)}
+								>
+									<ChevronUp className="size-3.5" />
+								</button>
+								<button
+									type="button"
+									aria-label="Decrease dev buy"
+									onClick={() => handleDevBuyStep(-1)}
+									className={cn(
+										'flex flex-1 items-center justify-center border-t border-input',
+										'text-muted-foreground transition-colors',
+										'hover:bg-accent/10 hover:text-accent',
+									)}
+								>
+									<ChevronDown className="size-3.5" />
+								</button>
+							</div>
+						</div>
+					</Field>
 				</div>
 
 				<div>
