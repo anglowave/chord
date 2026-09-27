@@ -1,0 +1,5 @@
+export const PUMP_FUN_COIN_URL = 'https://pump.fun/coin'
+export const SOLANA_EXPLORER_TX_URL = 'https://solscan.io/tx'
+export const SOLANA_EXPLORER_ADDRESS_URL = 'https://solscan.io/account'
+export const SITE_NAME = 'chord'
+export const CREATED_ON = 'https://chord.fun'
