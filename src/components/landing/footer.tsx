@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { SITE_TWITTER_URL } from '@/lib/pump/constants'
+
 function Wordmark() {
 	return (
 		<span className="font-heading text-sm font-bold tracking-tight">
@@ -41,6 +43,14 @@ export function Footer() {
 					>
 						Launch
 					</Link>
+					<a
+						href={SITE_TWITTER_URL}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="transition-colors hover:text-accent"
+					>
+						X
+					</a>
 					<a
 						href="https://pump.fun"
 						target="_blank"

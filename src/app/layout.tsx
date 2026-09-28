@@ -34,6 +34,9 @@ export const metadata: Metadata = {
 		icon: '/logo.png',
 		apple: '/logo.png',
 	},
+	twitter: {
+		site: '@UseChord',
+	},
 }
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
