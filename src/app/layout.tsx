@@ -27,9 +27,9 @@ const inconsolata = Inconsolata({
 })
 
 export const metadata: Metadata = {
-	title: 'chord | Pair your tokens with stock',
+	title: 'chord | Pair your tokens with stocks',
 	description:
-		'Launch pump.fun tokens and pair them with tokenized stocks. NVIDIA, Tesla, Apple, and more.',
+		'Pair your token with up to three tokenized stocks.',
 	icons: {
 		apple: '/logo.png',
 	},

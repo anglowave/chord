@@ -34,7 +34,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
 					<p className="mt-4 max-w-md text-muted-foreground">
 						{stock
 							? `Tokens paired with ${STOCK_BY_ID[stock].name}.`
-							: 'All tokens launched on Chord.'}
+							: 'Tokens paired with tokenized stocks.'}
 					</p>
 
 					<div className="mt-8">

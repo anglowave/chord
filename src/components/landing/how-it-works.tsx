@@ -5,19 +5,19 @@ const STEPS = [
 		icon: Layers,
 		title: 'Pick your stocks',
 		description:
-			'Choose up to three tokenized stocks to pair with your token. NVIDIA, Tesla, Apple, and more.',
+			'Choose up to three tokenized stocks. NVIDIA, Tesla, Apple, and more.',
 	},
 	{
 		icon: Rocket,
-		title: 'Launch on pump.fun',
+		title: 'Pair your token',
 		description:
-			'Create your token on-chain via the pump.fun SDK. SOL is the default quote — your stock pairings live on Chord.',
+			'Launch your token on pump.fun and pair it with the stocks you picked.',
 	},
 	{
 		icon: TrendingUp,
-		title: 'Trade the narrative',
+		title: 'Trade it',
 		description:
-			'Your token trades on pump.fun while your stock pairings tell the story. Fees settle in SOL, pairings in xStocks.',
+			'Your token trades on pump.fun, paired with those stocks.',
 	},
 ]
 
@@ -33,7 +33,7 @@ export function HowItWorks() {
 						How it works
 					</h2>
 					<p className="mt-4 text-muted-foreground">
-						Three steps from idea to a stock-paired token on pump.fun.
+						Pair your token with up to three tokenized stocks.
 					</p>
 				</div>
 

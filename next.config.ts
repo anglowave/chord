@@ -18,6 +18,16 @@ const nextConfig: NextConfig = {
 			},
 			{
 				protocol: 'https',
+				hostname: 'chordpf.com',
+				pathname: '/api/media/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'www.chordpf.com',
+				pathname: '/api/media/**',
+			},
+			{
+				protocol: 'https',
 				hostname: 'xstocks-metadata.backed.fi',
 			},
 		],

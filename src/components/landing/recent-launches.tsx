@@ -15,7 +15,7 @@ export async function RecentLaunches() {
 							Recent launches
 						</h2>
 						<p className="mt-3 max-w-md text-muted-foreground">
-							Tokens launched on Chord with stock pairings.
+							Tokens paired with tokenized stocks.
 						</p>
 					</div>
 					<Link
@@ -35,7 +35,7 @@ export async function RecentLaunches() {
 				) : (
 					<div className="mt-12 rounded-2xl border border-border bg-card/30 p-12 text-center">
 						<p className="text-muted-foreground">
-							No tokens launched yet. Be the first.
+							No tokens paired yet. Be the first.
 						</p>
 						<Link
 							href="/create"

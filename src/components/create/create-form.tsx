@@ -24,8 +24,8 @@ const createSchema = z.object({
 	devBuySol: z.coerce.number().min(0).max(10).optional(),
 	stocks: z
 		.array(z.enum(STOCK_ID_ENUM))
-		.min(1, 'Select at least one stock')
-		.max(3, 'Select up to three stocks'),
+		.min(1, 'Pair at least one stock')
+		.max(3, 'Pair up to three stocks'),
 })
 
 type CreateFormValues = z.infer<typeof createSchema>
@@ -338,7 +338,7 @@ export function CreateForm() {
 				<div>
 					<div className="mb-4 flex items-center justify-between">
 						<label className="text-sm font-medium text-foreground">
-							Stock pairings (1–3)
+							Pair with stocks (1–3)
 						</label>
 						<span className="font-mono text-xs text-muted-foreground">
 							{selectedStocks.length}/3 selected

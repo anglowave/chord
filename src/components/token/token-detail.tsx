@@ -88,10 +88,10 @@ export function TokenDetail({
 
 				<div>
 					<h2 className="font-heading text-xl font-semibold">
-						Stock pairings
+						Paired stocks
 					</h2>
 					<p className="mt-2 text-sm text-muted-foreground">
-						Tagged on Chord. On-chain quote is SOL via pump.fun.
+						This token is paired with these stocks.
 					</p>
 					<div className="mt-6 grid gap-4 sm:grid-cols-2">
 						{token.stocks.map((stockId) => {

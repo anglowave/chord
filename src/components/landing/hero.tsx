@@ -74,8 +74,7 @@ export function Hero() {
 					</h1>
 
 					<p className="animate-fade-up-delay-1 mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-						Launch on pump.fun with SOL, then tag your token with up to
-						three tokenized stocks. Trade the narrative, not just the chart.
+						Pair your token with up to three tokenized stocks.
 					</p>
 
 					<div className="animate-fade-up-delay-2 mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">

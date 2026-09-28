@@ -16,8 +16,7 @@ export default function CreatePage() {
 						Launch a token
 					</h1>
 					<p className="mt-4 text-muted-foreground">
-						Create on pump.fun with SOL, then tag up to three
-						tokenized stocks on Chord.
+						Pair your token with up to three tokenized stocks.
 					</p>
 					<div className="mt-10">
 						<CreateForm />
