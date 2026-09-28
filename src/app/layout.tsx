@@ -31,7 +31,6 @@ export const metadata: Metadata = {
 	description:
 		'Launch pump.fun tokens and pair them with tokenized stocks. NVIDIA, Tesla, Apple, and more.',
 	icons: {
-		icon: '/logo.png',
 		apple: '/logo.png',
 	},
 	twitter: {
