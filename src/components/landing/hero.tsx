@@ -73,8 +73,11 @@ export function Hero() {
 						</span>
 					</h1>
 
-					<p className="animate-fade-up-delay-1 mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-						Pair your token with up to three tokenized stocks.
+					<p className="animate-fade-up-delay-1 mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+						Launch a token on pump.fun and pair it with up to
+						three tokenized stocks, like NVIDIA, Tesla, and Apple.
+						Those stocks stay shown with your token while it
+						trades.
 					</p>
 
 					<div className="animate-fade-up-delay-2 mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">

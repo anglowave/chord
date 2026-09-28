@@ -27,7 +27,7 @@ export function Footer() {
 				</div>
 
 				<p className="text-center text-xs text-muted-foreground">
-					Pair your tokens with tokenized stocks
+					Launch on pump.fun. Pair with tokenized stocks.
 				</p>
 
 				<div className="flex items-center gap-6 text-xs text-muted-foreground">

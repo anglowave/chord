@@ -15,8 +15,9 @@ export default function CreatePage() {
 					<h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
 						Launch a token
 					</h1>
-					<p className="mt-4 text-muted-foreground">
-						Pair your token with up to three tokenized stocks.
+					<p className="mt-4 max-w-xl text-muted-foreground">
+						Name your token, choose up to three tokenized stocks,
+						and launch it on pump.fun.
 					</p>
 					<div className="mt-10">
 						<CreateForm />

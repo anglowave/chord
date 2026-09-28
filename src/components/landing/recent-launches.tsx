@@ -15,7 +15,8 @@ export async function RecentLaunches() {
 							Recent launches
 						</h2>
 						<p className="mt-3 max-w-md text-muted-foreground">
-							Tokens paired with tokenized stocks.
+							Tokens launched on pump.fun and paired with
+							tokenized stocks.
 						</p>
 					</div>
 					<Link

@@ -29,7 +29,7 @@ const inconsolata = Inconsolata({
 export const metadata: Metadata = {
 	title: 'chord | Pair your tokens with stocks',
 	description:
-		'Pair your token with up to three tokenized stocks.',
+		'Launch a token on pump.fun and pair it with up to three tokenized stocks, like NVIDIA, Tesla, and Apple.',
 	icons: {
 		apple: '/logo.png',
 	},

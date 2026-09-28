@@ -33,7 +33,8 @@ export function HowItWorks() {
 						How it works
 					</h2>
 					<p className="mt-4 text-muted-foreground">
-						Pair your token with up to three tokenized stocks.
+						Pick up to three stocks, launch your token on
+						pump.fun, and trade it with those stocks paired.
 					</p>
 				</div>
 
