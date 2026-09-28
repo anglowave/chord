@@ -2,77 +2,14 @@ import { NextResponse } from 'next/server'
 
 import { buildTokenMetadata } from '@/lib/metadata'
 import { STOCK_BY_ID, isValidStockId } from '@/lib/stocks'
+import {
+	createMetadataId,
+	imageExtension,
+	removeMetadataFiles,
+	uploadMetadataFile,
+} from '@/lib/supabase/storage'
 
 const MAX_IMAGE_SIZE = 4 * 1024 * 1024
-
-async function pinToIpfs(
-	name: string,
-	file: Blob,
-	metadata?: Record<string, string>,
-) {
-	const jwt = process.env.PINATA_JWT
-
-	if (!jwt) {
-		throw new Error('PINATA_JWT is not configured')
-	}
-
-	const formData = new FormData()
-	formData.append('file', file, name)
-
-	if (metadata) {
-		formData.append('pinataMetadata', JSON.stringify({ name, keyvalues: metadata }))
-	}
-
-	const response = await fetch(
-		'https://api.pinata.cloud/pinning/pinFileToIPFS',
-		{
-			method: 'POST',
-			headers: {
-				Authorization: `Bearer ${jwt}`,
-			},
-			body: formData,
-		},
-	)
-
-	if (!response.ok) {
-		const error = await response.text()
-		throw new Error(`Pinata upload failed: ${error}`)
-	}
-
-	const data = await response.json() as { IpfsHash: string }
-	return `https://gateway.pinata.cloud/ipfs/${data.IpfsHash}`
-}
-
-async function pinJsonToIpfs(name: string, json: unknown) {
-	const jwt = process.env.PINATA_JWT
-
-	if (!jwt) {
-		throw new Error('PINATA_JWT is not configured')
-	}
-
-	const response = await fetch(
-		'https://api.pinata.cloud/pinning/pinJSONToIPFS',
-		{
-			method: 'POST',
-			headers: {
-				Authorization: `Bearer ${jwt}`,
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				pinataMetadata: { name },
-				pinataContent: json,
-			}),
-		},
-	)
-
-	if (!response.ok) {
-		const error = await response.text()
-		throw new Error(`Pinata JSON upload failed: ${error}`)
-	}
-
-	const data = await response.json() as { IpfsHash: string }
-	return `https://gateway.pinata.cloud/ipfs/${data.IpfsHash}`
-}
 
 export async function POST(request: Request) {
 	try {
@@ -140,15 +77,27 @@ export async function POST(request: Request) {
 			)
 		}
 
-		const imageUrl = await pinToIpfs(
-			`${symbol}-image`,
-			image,
-			{ type: 'token-image', symbol },
+		const extension = imageExtension(image.type)
+		if (!extension) {
+			return NextResponse.json(
+				{ error: 'Image must be a PNG, JPG, WEBP, or GIF' },
+				{ status: 400 },
+			)
+		}
+
+		const id = createMetadataId()
+		const imagePath = `${id}/image.${extension}`
+		const metadataPath = `${id}/metadata.json`
+
+		const imageUrl = await uploadMetadataFile(
+			imagePath,
+			Buffer.from(await image.arrayBuffer()),
+			image.type === 'image/jpg' ? 'image/jpeg' : image.type,
 		)
 
-		const pairs = stockIds.map((id) => ({
-			symbol: STOCK_BY_ID[id].symbol,
-			mint: STOCK_BY_ID[id].mint,
+		const pairs = stockIds.map((stockId) => ({
+			symbol: STOCK_BY_ID[stockId].symbol,
+			mint: STOCK_BY_ID[stockId].mint,
 		}))
 
 		const metadata = buildTokenMetadata({
@@ -162,7 +111,17 @@ export async function POST(request: Request) {
 			pairs,
 		})
 
-		const uri = await pinJsonToIpfs(`${symbol}-metadata`, metadata)
+		let uri: string
+		try {
+			uri = await uploadMetadataFile(
+				metadataPath,
+				Buffer.from(JSON.stringify(metadata)),
+				'application/json',
+			)
+		} catch (error) {
+			await removeMetadataFiles([imagePath])
+			throw error
+		}
 
 		return NextResponse.json({ uri, imageUrl })
 	} catch (error) {

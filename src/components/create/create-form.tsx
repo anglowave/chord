@@ -41,7 +41,7 @@ type Step =
 
 const STEP_LABELS: Record<Step, string> = {
 	idle: '',
-	uploading: 'Uploading metadata to IPFS…',
+	uploading: 'Uploading metadata…',
 	signing: 'Sign the transaction in your wallet…',
 	confirming: 'Confirming on Solana…',
 	registering: 'Registering your token…',
