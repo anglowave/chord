@@ -13,8 +13,8 @@ const nextConfig: NextConfig = {
 			},
 			{
 				protocol: 'https',
-				hostname: '**.supabase.co',
-				pathname: '/storage/v1/object/public/**',
+				hostname: '*.vercel.app',
+				pathname: '/api/media/**',
 			},
 			{
 				protocol: 'https',

@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { STOCK_BY_ID } from '@/lib/stocks'
-import type { TokenRecord } from '@/lib/supabase/types'
+import type { TokenRecord } from '@/lib/tokens'
 import { cn } from '@/lib/utils'
 
 interface TokenCardProps {

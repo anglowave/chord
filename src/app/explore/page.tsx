@@ -5,7 +5,7 @@ import { StockFilter } from '@/components/explore/stock-filter'
 import { Footer } from '@/components/landing/footer'
 import { Header } from '@/components/landing/header'
 import { STOCK_BY_ID, isValidStockId } from '@/lib/stocks'
-import { getTokens } from '@/lib/supabase/tokens'
+import { getTokens } from '@/lib/tokens'
 
 export const metadata = {
 	title: 'Explore | chord',

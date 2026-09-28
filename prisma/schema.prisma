@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model TokenAsset {
+  id        String   @id
+  image     Bytes
+  imageType String
+  metadata  Json
+  createdAt DateTime @default(now())
+}
+
+model Token {
+  mint        String   @id
+  name        String
+  symbol      String
+  description String?
+  imageUrl    String
+  metadataUri String
+  creator     String
+  stocks      String[]
+  signature   String   @unique
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt(sort: Desc)])
+}

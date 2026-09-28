@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server'
 
+import {
+	createAssetId,
+	deleteTokenAsset,
+	imageExtension,
+	saveTokenAsset,
+} from '@/lib/assets'
 import { buildTokenMetadata } from '@/lib/metadata'
 import { STOCK_BY_ID, isValidStockId } from '@/lib/stocks'
-import {
-	createMetadataId,
-	imageExtension,
-	removeMetadataFiles,
-	uploadMetadataFile,
-} from '@/lib/supabase/storage'
 
 const MAX_IMAGE_SIZE = 4 * 1024 * 1024
 
@@ -77,23 +77,20 @@ export async function POST(request: Request) {
 			)
 		}
 
-		const extension = imageExtension(image.type)
-		if (!extension) {
+		if (!imageExtension(image.type)) {
 			return NextResponse.json(
 				{ error: 'Image must be a PNG, JPG, WEBP, or GIF' },
 				{ status: 400 },
 			)
 		}
 
-		const id = createMetadataId()
-		const imagePath = `${id}/image.${extension}`
-		const metadataPath = `${id}/metadata.json`
-
-		const imageUrl = await uploadMetadataFile(
-			imagePath,
-			Buffer.from(await image.arrayBuffer()),
-			image.type === 'image/jpg' ? 'image/jpeg' : image.type,
-		)
+		const id = createAssetId()
+		const origin = new URL(request.url).origin
+		const imageUrl = `${origin}/api/media/${id}`
+		const uri = `${origin}/api/metadata/${id}`
+		const imageType = image.type === 'image/jpg'
+			? 'image/jpeg'
+			: image.type
 
 		const pairs = stockIds.map((stockId) => ({
 			symbol: STOCK_BY_ID[stockId].symbol,
@@ -111,15 +108,15 @@ export async function POST(request: Request) {
 			pairs,
 		})
 
-		let uri: string
 		try {
-			uri = await uploadMetadataFile(
-				metadataPath,
-				Buffer.from(JSON.stringify(metadata)),
-				'application/json',
-			)
+			await saveTokenAsset({
+				id,
+				image: Buffer.from(await image.arrayBuffer()),
+				imageType,
+				metadata,
+			})
 		} catch (error) {
-			await removeMetadataFiles([imagePath])
+			await deleteTokenAsset(id)
 			throw error
 		}
 

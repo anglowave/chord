@@ -6,8 +6,7 @@ import { Connection, PublicKey } from '@solana/web3.js'
 import { NextResponse } from 'next/server'
 
 import { STOCK_BY_MINT } from '@/lib/stocks'
-import { createServiceClient } from '@/lib/supabase/server'
-import type { TokenRecord } from '@/lib/supabase/types'
+import { saveToken } from '@/lib/tokens'
 import {
 	fetchTokenMetadata,
 	verifyTokenCreation,
@@ -61,8 +60,7 @@ export async function POST(request: Request) {
 			)
 		}
 
-		const supabase = createServiceClient()
-		const insertPayload: Omit<TokenRecord, 'created_at'> = {
+		const token = await saveToken({
 			mint,
 			name: metadata.name,
 			symbol: metadata.symbol,
@@ -72,19 +70,9 @@ export async function POST(request: Request) {
 			creator,
 			stocks: stockIds,
 			signature,
-		}
+		})
 
-		const { data, error } = await supabase
-			.from('tokens')
-			.upsert(insertPayload as never, { onConflict: 'mint' })
-			.select()
-			.single()
-
-		if (error) {
-			throw new Error(error.message)
-		}
-
-		return NextResponse.json({ token: data })
+		return NextResponse.json({ token })
 	} catch (error) {
 		console.error('Token registration failed:', error)
 		return NextResponse.json(

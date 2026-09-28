@@ -85,9 +85,13 @@ export const STOCK_IDS = STOCKS.map((stock) => stock.id)
 
 export const STOCK_ID_ENUM = STOCK_IDS as [StockId, ...StockId[]]
 
+type StockById = {
+	[K in StockId]: Extract<(typeof STOCKS)[number], { id: K }>
+}
+
 export const STOCK_BY_ID = Object.fromEntries(
 	STOCKS.map((stock) => [stock.id, stock]),
-) as Record<StockId, Stock>
+) as StockById
 
 export const STOCK_BY_MINT = Object.fromEntries(
 	STOCKS.map((stock) => [stock.mint, stock]),

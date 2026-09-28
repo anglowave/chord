@@ -4,7 +4,7 @@ import { Footer } from '@/components/landing/footer'
 import { Header } from '@/components/landing/header'
 import { TokenDetail } from '@/components/token/token-detail'
 import { STOCK_BY_ID } from '@/lib/stocks'
-import { getTokenByMint } from '@/lib/supabase/tokens'
+import { getTokenByMint } from '@/lib/tokens'
 
 interface TokenPageProps {
 	params: Promise<{ mint: string }>

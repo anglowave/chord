@@ -7,7 +7,7 @@ import {
 	SOLANA_EXPLORER_ADDRESS_URL,
 	SOLANA_EXPLORER_TX_URL,
 } from '@/lib/pump/constants'
-import type { TokenRecord } from '@/lib/supabase/types'
+import type { TokenRecord } from '@/lib/tokens'
 import { cn, formatUsd, truncateAddress } from '@/lib/utils'
 
 interface StockPrice {

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 import { TokenCard } from '@/components/explore/token-card'
-import { getRecentTokens } from '@/lib/supabase/tokens'
+import { getRecentTokens } from '@/lib/tokens'
 
 export async function RecentLaunches() {
 	const tokens = await getRecentTokens(6)
