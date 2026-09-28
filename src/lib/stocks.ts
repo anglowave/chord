@@ -101,11 +101,11 @@ export function getStockMints(ids: string[]) {
 	return ids.map((id) => STOCK_BY_ID[id as StockId]?.mint).filter(Boolean)
 }
 
-export const HERO_COMBOS: Array<[StockId, StockId]> = [
-	['NVDA', 'TSLA'],
-	['AAPL', 'MSFT'],
-	['META', 'GOOGL'],
-	['SPACEX', 'NVDA'],
-	['GME', 'INTC'],
-	['TSLA', 'MCD'],
+export const HERO_COMBOS: Array<[StockId, StockId, StockId]> = [
+	['NVDA', 'TSLA', 'AAPL'],
+	['META', 'GOOGL', 'MSFT'],
+	['SPACEX', 'NVDA', 'TSLA'],
+	['AAPL', 'MSFT', 'GOOGL'],
+	['GME', 'INTC', 'MCD'],
+	['TSLA', 'MCD', 'SPACEX'],
 ]

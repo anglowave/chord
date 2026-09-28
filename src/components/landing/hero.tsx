@@ -116,9 +116,7 @@ function ComboLine({
 	comboIndex: number
 	className?: string
 }) {
-	const [leftId, rightId] = HERO_COMBOS[comboIndex]
-	const left = STOCK_BY_ID[leftId]
-	const right = STOCK_BY_ID[rightId]
+	const combo = HERO_COMBOS[comboIndex]
 	const isLeaving = className?.includes('combo-exit')
 
 	return (
@@ -129,9 +127,14 @@ function ComboLine({
 				className,
 			)}
 		>
-			<StockPairItem stock={left} />
-			<span className="text-muted-foreground">+</span>
-			<StockPairItem stock={right} />
+			{combo.map((id, index) => (
+				<span key={id} className="contents">
+					{index > 0 && (
+						<span className="text-muted-foreground">+</span>
+					)}
+					<StockPairItem stock={STOCK_BY_ID[id]} />
+				</span>
+			))}
 		</span>
 	)
 }
