@@ -30,6 +30,13 @@ export async function POST(request: Request) {
 			)
 		}
 
+		if (symbol.length > 10) {
+			return NextResponse.json(
+				{ error: 'Ticker can be at most 10 characters' },
+				{ status: 400 },
+			)
+		}
+
 		if (!(image instanceof File)) {
 			return NextResponse.json(
 				{ error: 'Image is required' },

@@ -16,7 +16,10 @@ import { cn } from '@/lib/utils'
 
 const createSchema = z.object({
 	name: z.string().min(1, 'Name is required').max(32),
-	symbol: z.string().min(1, 'Ticker is required').max(10),
+	symbol: z
+		.string()
+		.min(1, 'Ticker is required')
+		.max(10, 'Ticker can be at most 10 characters'),
 	description: z.string().max(500).optional(),
 	twitter: z.string().url().optional().or(z.literal('')),
 	telegram: z.string().url().optional().or(z.literal('')),
@@ -75,6 +78,7 @@ export function CreateForm() {
 
 	const selectedStocks = watch('stocks')
 	const devBuySol = watch('devBuySol')
+	const symbol = watch('symbol') ?? ''
 
 	function handleDevBuyStep(direction: 1 | -1) {
 		const current = Number(devBuySol) || 0
@@ -239,9 +243,14 @@ export function CreateForm() {
 								/>
 							</Field>
 
-							<Field label="Ticker" error={errors.symbol?.message}>
+							<Field
+								label="Ticker"
+								aside={`${symbol.length}/10`}
+								error={errors.symbol?.message}
+							>
 								<input
 									{...register('symbol')}
+									maxLength={10}
 									className={cn(inputClassName, 'font-mono uppercase')}
 									placeholder="TICKER"
 								/>
@@ -391,16 +400,27 @@ export function CreateForm() {
 
 function Field({
 	label,
+	aside,
 	error,
 	children,
 }: {
 	label: string
+	aside?: string
 	error?: string
 	children: React.ReactNode
 }) {
 	return (
 		<div>
-			<label className="text-sm font-medium text-foreground">{label}</label>
+			<div className="flex items-center justify-between gap-3">
+				<label className="text-sm font-medium text-foreground">
+					{label}
+				</label>
+				{aside && (
+					<span className="font-mono text-xs text-muted-foreground">
+						{aside}
+					</span>
+				)}
+			</div>
 			<div className="mt-2">{children}</div>
 			{error && (
 				<p className="mt-1 text-sm text-destructive">{error}</p>
